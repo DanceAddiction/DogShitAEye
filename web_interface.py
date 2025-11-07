@@ -124,4 +124,8 @@ def get_stats():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    # Note: Set debug=False in production to prevent security vulnerabilities
+    # Debug mode allows arbitrary code execution through the debugger
+    import os
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    app.run(host='0.0.0.0', port=5001, debug=debug_mode)

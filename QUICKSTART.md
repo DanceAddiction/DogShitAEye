@@ -56,6 +56,12 @@ python web_interface.py
 
 Open your browser to: http://localhost:5001
 
+**Note:** For development/testing, you can enable debug mode:
+```bash
+FLASK_DEBUG=true python web_interface.py
+```
+**Security Warning:** Never run with debug mode in production as it can allow arbitrary code execution.
+
 ## Verifying It's Working
 
 ### Check Logs

@@ -1,2 +1,2 @@
 # DogShitAEye
-The use of Frigate and AI to track dog that shite on the path outside my house!
+A comprehensive system that integrates with Frigate NVR to track dog walkers across multiple cameras, helping identify individuals who may not be cleaning up after their dogs.

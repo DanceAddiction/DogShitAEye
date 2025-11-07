@@ -1,0 +1,59 @@
+# Example configuration - copy this to config.yaml and customize
+
+# Frigate configuration
+frigate:
+  host: "localhost"  # Change to your Frigate server IP, e.g., "192.168.1.100"
+  port: 5000
+  mqtt_host: "localhost"  # Usually same as Frigate host
+  mqtt_port: 1883
+  mqtt_user: ""  # Leave empty if no authentication required
+  mqtt_password: ""
+
+# Camera zones and paths
+# Add all cameras you want to monitor
+cameras:
+  front_path:
+    name: "Front Path Camera"
+    zone: "front_path"  # Must match zone name in Frigate config
+    path_name: "Main Path"
+  
+  # Example: Add more cameras
+  # side_street:
+  #   name: "Side Street Camera"
+  #   zone: "side_street"
+  #   path_name: "Side Path"
+  #
+  # back_alley:
+  #   name: "Back Alley Camera"
+  #   zone: "back_alley"
+  #   path_name: "Back Alley"
+
+# Database configuration
+database:
+  path: "dog_walker_tracker.db"
+
+# Image storage
+images:
+  storage_path: "walker_images"
+  max_images_per_walker: 50  # Keep best 50 images per walker
+
+# Tracking configuration
+tracking:
+  # Time window to consider same person across cameras (seconds)
+  # If a person appears on a different camera within this window,
+  # they're considered the same person
+  cross_camera_window: 300
+  
+  # Minimum confidence for person detection (0.0 to 1.0)
+  min_person_confidence: 0.7
+  
+  # Minimum confidence for dog detection (0.0 to 1.0)
+  min_dog_confidence: 0.6
+  
+  # Days to consider a "regular" walker
+  regular_walker_days: 7
+
+# Analytics
+analytics:
+  # Flag walkers who appear with dogs this many times or more
+  suspicious_threshold: 3

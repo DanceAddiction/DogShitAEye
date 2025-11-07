@@ -1,20 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
 # Dependencies
 node_modules/
-*.pyc
-__pycache__/
 
 # Build outputs
-dist/
-build/
 *.exe
 *.dll
-*.so
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
 
 # IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS files
 .DS_Store
@@ -49,6 +78,23 @@ secrets/
 passwords/
 credentials/
 
+# Images and videos
+walker_images/
+*.jpg
+*.jpeg
+*.png
+*.mp4
+*.avi
+
+# Local config overrides
+config.local.yaml
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
 # Temporary files
 *.tmp
+tmp/
 temp/

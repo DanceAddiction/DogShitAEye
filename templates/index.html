@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Walker Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+        
+        .walkers-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .walker-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .walker-card:hover {
+            border-color: #3498db;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+        }
+        
+        .walker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .walker-id {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .has-dog {
+            background: #27ae60;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .no-dog {
+            background: #95a5a6;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .walker-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .walker-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .walker-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: #7f8c8d;
+        }
+        
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐕 Dog Walker Tracker</h1>
+            <p class="subtitle">Monitoring dog walkers across multiple camera zones</p>
+        </header>
+        
+        <div class="stats-grid" id="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="total-walkers">-</div>
+                <div class="stat-label">Total Walkers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="walkers-with-dogs">-</div>
+                <div class="stat-label">Walkers with Dogs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-detections">-</div>
+                <div class="stat-label">Total Detections</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-sessions">-</div>
+                <div class="stat-label">Walk Sessions</div>
+            </div>
+        </div>
+        
+        <div class="walkers-section">
+            <h2 class="section-title">Tracked Walkers</h2>
+            <div id="walkers-list">
+                <div class="loading">Loading walkers...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Fetch and display statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const stats = await response.json();
+                
+                document.getElementById('total-walkers').textContent = stats.total_walkers;
+                document.getElementById('walkers-with-dogs').textContent = stats.walkers_with_dogs;
+                document.getElementById('total-detections').textContent = stats.total_detections;
+                document.getElementById('total-sessions').textContent = stats.total_sessions;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+        
+        // Fetch and display walkers
+        async function loadWalkers() {
+            try {
+                const response = await fetch('/api/walkers');
+                const walkers = await response.json();
+                
+                const container = document.getElementById('walkers-list');
+                
+                if (walkers.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🚶</div>
+                            <h3>No walkers tracked yet</h3>
+                            <p>Walkers will appear here once they are detected by Frigate cameras</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = walkers.map(walker => `
+                    <div class="walker-card" onclick="viewWalkerDetail(${walker.walker_id})">
+                        <div class="walker-header">
+                            <div class="walker-id">Walker #${walker.walker_id}</div>
+                            <div class="${walker.has_dog ? 'has-dog' : 'no-dog'}">
+                                ${walker.has_dog ? '🐕 Has Dog' : '👤 No Dog'}
+                            </div>
+                        </div>
+                        <div class="walker-info">
+                            <div class="info-item">
+                                <div class="info-label">First Seen</div>
+                                <div class="info-value">${formatDate(walker.first_seen)}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Last Seen</div>
+                                <div class="info-value">${formatDate(walker.last_seen)}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Total Walks</div>
+                                <div class="info-value">${walker.total_walks}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Cameras</div>
+                                <div class="info-value">${walker.cameras.join(', ')}</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading walkers:', error);
+                document.getElementById('walkers-list').innerHTML = `
+                    <div class="empty-state">
+                        <p>Error loading walkers. Please check the console.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Format date for display
+        function formatDate(dateStr) {
+            if (!dateStr) return 'Unknown';
+            const date = new Date(dateStr);
+            return date.toLocaleString();
+        }
+        
+        // View walker details (placeholder for future implementation)
+        function viewWalkerDetail(walkerId) {
+            console.log('View walker detail:', walkerId);
+            // Future: Open modal or navigate to detail page
+            alert(`Walker #${walkerId} - Detailed view coming soon!`);
+        }
+        
+        // Load data on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadStats();
+            loadWalkers();
+            
+            // Refresh every 30 seconds
+            setInterval(() => {
+                loadStats();
+                loadWalkers();
+            }, 30000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+# Frigate configuration
+frigate:
+  host: "localhost"
+  port: 5000
+  mqtt_host: "localhost"
+  mqtt_port: 1883
+  mqtt_user: ""
+  mqtt_password: ""
+
+# Camera zones and paths
+cameras:
+  front_path:
+    name: "Front Path Camera"
+    zone: "front_path"
+    path_name: "Main Path"
+  side_street:
+    name: "Side Street Camera"
+    zone: "side_street"
+    path_name: "Side Path"
+
+# Database configuration
+database:
+  path: "dog_walker_tracker.db"
+
+# Image storage
+images:
+  storage_path: "walker_images"
+  max_images_per_walker: 50
+
+# Tracking configuration
+tracking:
+  # Time window to consider same person across cameras (seconds)
+  cross_camera_window: 300
+  # Minimum confidence for person detection
+  min_person_confidence: 0.7
+  # Minimum confidence for dog detection
+  min_dog_confidence: 0.6
+  # Time to consider a "regular" walker (days)
+  regular_walker_days: 7
+
+# Analytics
+analytics:
+  # Flag walkers who appear without cleaning up multiple times
+  suspicious_threshold: 3

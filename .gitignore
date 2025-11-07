@@ -28,6 +28,27 @@ logs/
 .env
 .env.local
 
+# Secrets and passwords - DO NOT COMMIT
+secrets.txt
+passwords.txt
+credentials.txt
+secrets.json
+passwords.json
+credentials.json
+secrets.yaml
+passwords.yaml
+credentials.yaml
+*.secret
+*.secrets
+*.password
+*.passwords
+*.credential
+*.credentials
+secret/
+secrets/
+passwords/
+credentials/
+
 # Temporary files
 *.tmp
 temp/
